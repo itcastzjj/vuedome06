@@ -61,3 +61,11 @@ export function login(query) {
         data: query
     })
 }
+// 收藏
+export function collects(query) {
+    return request({
+        url: '/api/collects/goods/'+query.good,
+        method: 'post',
+        data: query
+    })
+}

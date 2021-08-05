@@ -8,9 +8,11 @@
       <span class="_price">￥</span>
       <span class="_price_">{{goods.price}}</span>
     </p>
-    <van-tabs v-model="active">
+    <van-tabs :active="active">
       <van-tab title="概述" class="gaishu">
-        <div class="content" ref="content" ><img :src="img_data"  alt=""></div>
+        <div class="content" ref="content">
+          <img :src="img_data" alt>
+        </div>
       </van-tab>
       <van-tab title="评论">
         <div v-show="goods.comments" class="zanwu">暂无评论</div>
@@ -37,30 +39,36 @@
         </div>
       </van-tab>
     </van-tabs>
-    <bottom-nav></bottom-nav>
+<van-action-bar>
+  <van-action-bar-icon icon="chat-o" text="客服" color="#ee0a24" />
+  <van-action-bar-icon icon="cart-o" text="购物车" />
+  <van-action-bar-icon icon="star" text="已收藏" :color="is_collect" @click="click_collects"/>
+  <van-action-bar-button type="warning" text="加入购物车" />
+  <van-action-bar-button type="danger" text="立即购买" />
+</van-action-bar>
   </div>
 </template>
 
 <script>
-import bottomNav from "@/components/bottomNav";
 import topNav from "@/components/topNav";
-import { getxiangqingData } from "@/api/api.js";
+import { getxiangqingData,collects } from "@/api/api.js";
+
 export default {
   // 详情页
   name: "xiangqing",
   components: {
-    bottomNav,
+    // bottomNav,
     topNav
   },
   data() {
     return {
-      active: 2,
+      active: 1,
       xiangqingshuju: {},
       goods: {},
       like_goods: [],
       img_data: "",
-      html:
-        '"<img src="https://oss.shop.eduwork.cn/article/2020-0820-5f3e156693783.jpg" alt="qq2.jpg" width="750" height="6028" />"'
+      is_collect:0,
+        
     };
   },
   created() {
@@ -83,12 +91,20 @@ export default {
           this.like_goods = this.xiangqingshuju.like_goods;
           // this.filder()
 
-          var data1 = (data.goods.details);
-          var b=data1.search("src"),e=data1.search(".jpg")
-          data1=data1.slice(b+5,e+4)
+          var data1 = data.goods.details;
+          var b = data1.search("src"),
+            e = data1.search(".jpg");
+          data1 = data1.slice(b + 5, e + 4);
 
           console.log(data1);
-          this.img_data=data1;
+          this.img_data = data1;
+          if(res.data.goods.is_collect==1){
+ this.is_collect="#ff5000"
+          }else{
+ this.is_collect="#ccc"
+
+          }
+         
         }
         // alert(1) youxianji
       });
@@ -102,11 +118,27 @@ export default {
           img[i].style.height = "auto";
         }
       });
+    },
+    click_collects(){
+      console.log(this.goods.id)
+      collects({good:this.goods.id}).then((res)=>{
+      console.log(res)
+
+        if(res.status==201){
+          this.is_collect="#ff5000"
+        }else if(res.status==204){
+this.is_collect="#ccc"
+        }
+      })
     }
   }
 };
 </script>
 <style scoped>
+.van-goods-action{
+  width: 100px;
+  height: 200px;
+}
 .content img {
   max-width: 100%;
   height: auto;

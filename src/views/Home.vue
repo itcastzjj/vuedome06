@@ -117,17 +117,15 @@ export default {
           this.scroll.refresh();
           // console.log(this.xuanxiang.page);
         });
-        this.scroll.on("scroll", position => {
+        // this.scroll.on("scroll", position => {
 
-            if (position.y <= -300) {
-              this.positionY = 1;
-            }
-            if(position.y > -300){
-              this.positionY = 0;
-            }
-
-          console.log(position.y);
-        });
+        //     if (position.y <= -300) {
+        //       this.positionY = 1;
+        //     }
+        //     if(position.y > -300){
+        //       this.positionY = 0;
+        //     }
+        // });
       });
     },
     // 获取选项卡数据

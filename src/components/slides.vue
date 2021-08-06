@@ -1,37 +1,27 @@
 <template>
-  
-    <van-swipe :autoplay="3000">
-      <van-swipe-item v-for="(image, index) in slidesData" :key="index">
-        <img v-lazy="image.img_url">
-      </van-swipe-item>
-    </van-swipe>
-  
+  <van-swipe :autoplay="3000">
+    <van-swipe-item v-for="(item,index) in slidesData" :key="index">
+      <van-image :src="item.img_url"/>
+    </van-swipe-item>
+  </van-swipe>
 </template>
 
 <script>
 export default {
   // 轮播图
   name: "slides",
-   data() {
-    return {
-      
-    };
+  props: {
+    slidesData: Array
   },
-  methods: {
-      
-  },
-  mounted () {
-    //   console.log(this.slidesData)
-  },
-  props:{
-      slidesData:Array
+  mounted() {
+    console.log(this.$props.slidesData);
   }
 };
 </script>
 <style scoped>
-img{
-    width: 100%;
-    height: 160px;
+img {
+  width: 100%;
+  height: 160px;
 }
 </style>
 
